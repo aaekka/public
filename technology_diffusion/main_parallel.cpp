@@ -87,7 +87,8 @@ for(int in = 0; in < sz_gridN; in++)
 
 			intvec = new bool[N];
 			extvec = new bool[N];
-			
+
+			// generate initial productivity distribution
 			z = genz(N,th, irptr);
 	
 			mean0 = vecmean(z,N);
@@ -96,20 +97,22 @@ for(int in = 0; in < sz_gridN; in++)
 			{
 				//cout << "N = " << N << " ; ir = " << ir << " ; t = " << t << endl;
 
-				//draw from internal distribution
+				//INTERNAL DISTRIBUTION DRAW
 				Ni = 0;
-				
 				intvec0 = genrandvec(N, irptr);
-				
+
+
+				// evaluate whether agent is able to draw from internal distribution
 				for(int ial = 0; ial < N; ial++)
 				{
-					intvec[ial] = *(intvec0 + ial) < al;
+					intvec[ial] = *(intvec0 + ial) < al; 
 					if(intvec[ial])
 					{
 						Ni++;
 					}
 				}
 				
+				// draw random technologies for agents who are able to draw from internal distribution
 				if(Ni > 0)
 				{	
 					Ii = genIi(Ni, N, irptr);
@@ -136,12 +139,11 @@ for(int in = 0; in < sz_gridN; in++)
 					
 				}
 
-
-				//draw from external distribution
+				//EXTERNAL DISTRIBUTION DRAW
 				Ne = 0;
-				
 				extvec0 = genrandvec(N, irptr);
-				
+
+				// evaluate whether agent is able to draw from external distribution
 				for(int ibt = 0; ibt < N; ibt++)
 				{
 					extvec[ibt] = *(extvec0 + ibt) < bt;
@@ -151,7 +153,7 @@ for(int in = 0; in < sz_gridN; in++)
 					}
 				}
 				
-
+				// draw random technologies for agents who are able to draw from external distribution
 				if(Ne > 0)
 				{	
 					ztemp = genztemp(Ne, th, irptr);
@@ -170,24 +172,17 @@ for(int in = 0; in < sz_gridN; in++)
 					
 				}
 				
-				
-				
-				// calculate growth
+				// calculate productivity growth
 				mean1 = vecmean(z,N);
-
 				gr_prv[ir-1][t-1] = (mean1 - mean0) / mean0;
-				
-				// for next time round
 				mean0 = mean1;
 				
 				delete[] intvec0;
 				delete[] extvec0;
-				
 			}
 
 			delete[] intvec;
 			delete[] extvec;
-
 			delete[] z;
 		}
 		
