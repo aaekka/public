@@ -6,7 +6,6 @@
 using namespace std;
 
 
-//// WHAT TO DO WHEN DENOMINATOR IS ZERO AND WHEN BOTH NUM AND DEN ARE ZERO?????
 double* genz(int sz_v, double theta, unsigned int* ptr)
 {
 	assert(sz_v > 0);
